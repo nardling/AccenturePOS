@@ -16,7 +16,7 @@ namespace Accenture::POS {
 		protected:
 			std::string _name;
 			double _subtotal;
-			int64_t _qty;
+			int32_t _qty;
 			double _wt;
 			double _unitPrice;
 			double _markdown;
@@ -27,12 +27,12 @@ namespace Accenture::POS {
 			double Subtotal() { return _subtotal; }
 
 			virtual double ReCalculate() = 0;
-			virtual double AddQty(int64_t qty) = 0;
+			virtual double AddQty(int32_t qty) = 0;
 			virtual double AddWt(double wt) = 0;
 			virtual double AttachWtSpecial(double qualifyingQuantity, double discountQuantity, double discountPct) = 0;
-			virtual double AttachQtyXforYSpecial(int64_t qq, double sp) = 0;
-			virtual double AttachBSGSSpecialWithNoLimit(int64_t qualifyingQuantity, int64_t discountQuantity, int8_t discountPct) = 0;
-			virtual double AttachBSGSSpecialWithLimit(int64_t qualifyingQuantity, int64_t discountQuantity, int64_t limitQuantity,
+			virtual double AttachQtyXforYSpecial(int32_t qq, double sp) = 0;
+			virtual double AttachBSGSSpecialWithNoLimit(int32_t qualifyingQuantity, int32_t discountQuantity, int8_t discountPct) = 0;
+			virtual double AttachBSGSSpecialWithLimit(int32_t qualifyingQuantity, int32_t discountQuantity, int32_t limitQuantity,
 				int8_t discountPct) = 0;
 
 			virtual ItemType Type() const  = 0;
@@ -66,7 +66,7 @@ namespace Accenture::POS {
 				return delta;
 			}
 
-			double AddQty(int64_t qty) override {
+			double AddQty(int32_t qty) override {
 				return 0;
 			}
 
@@ -80,11 +80,11 @@ namespace Accenture::POS {
 				return ReCalculate();
 			}
 
-			double AttachQtyXforYSpecial(int64_t qq, double sp) override { return 0; }
+			double AttachQtyXforYSpecial(int32_t qq, double sp) override { return 0; }
 
-			double AttachBSGSSpecialWithNoLimit(int64_t qualifyingQuantity, int64_t discountQuantity, int8_t discountPct) override { return 0; }
+			double AttachBSGSSpecialWithNoLimit(int32_t qualifyingQuantity, int32_t discountQuantity, int8_t discountPct) override { return 0; }
 
-			double AttachBSGSSpecialWithLimit(int64_t qualifyingQuantity, int64_t discountQuantity, int64_t limitQuantity,
+			double AttachBSGSSpecialWithLimit(int32_t qualifyingQuantity, int32_t discountQuantity, int32_t limitQuantity,
 				int8_t discountPct) override { return 0; }
 
 			ItemType Type() const override { return ItemType::WT; }
@@ -110,7 +110,7 @@ namespace Accenture::POS {
 				return delta;
 			}
 
-			double AddQty(int64_t qty) override {
+			double AddQty(int32_t qty) override {
 				_qty += qty;
 				return ReCalculate();
 			}
@@ -121,18 +121,18 @@ namespace Accenture::POS {
 
 			double AttachWtSpecial (double qualifyingQuantity, double discountQuantity, double discountPct) override { return 0; }
 
-			double AttachQtyXforYSpecial(int64_t qq, double sp) override {
+			double AttachQtyXforYSpecial(int32_t qq, double sp) override {
 				_specials.push_back(std::make_shared<QtyXForYSpecial>(qq, sp));
 				return ReCalculate();
 			}
 
-			double AttachBSGSSpecialWithLimit(int64_t qualifyingQuantity, int64_t discountQuantity, int64_t limitQuantity,
+			double AttachBSGSSpecialWithLimit(int32_t qualifyingQuantity, int32_t discountQuantity, int32_t limitQuantity,
 				int8_t discountPct) override {
 				_specials.push_back(std::make_shared<QtyBSGSSpecial>(qualifyingQuantity, discountQuantity, limitQuantity, discountPct));
 				return ReCalculate();
 			}
 
-			double AttachBSGSSpecialWithNoLimit(int64_t qualifyingQuantity, int64_t discountQuantity, int8_t discountPct) override {
+			double AttachBSGSSpecialWithNoLimit(int32_t qualifyingQuantity, int32_t discountQuantity, int8_t discountPct) override {
 				_specials.push_back(std::make_shared<QtyBSGSSpecial>(qualifyingQuantity, discountQuantity, INT_MAX, discountPct));
 				return ReCalculate();
 			}

@@ -41,6 +41,8 @@ void SetMarkdownTestForQty() {
 	assert(CompareNear(r.CurrentTotal(), 4.50));
 	r.SetItemMarkdown("pears", .50);
 	assert(CompareNear(r.CurrentTotal(), 3.00));
+	r.SetItemMarkdown("pears", 0);
+	assert(CompareNear(r.CurrentTotal(), 4.50));
 }
 
 void SetPriceTestForWt() {
@@ -61,9 +63,11 @@ void SetMarkdownTestForWt() {
 	assert(CompareNear(r.CurrentTotal(), 5.25));
 	r.SetItemMarkdown("pears", .50);
 	assert(CompareNear(r.CurrentTotal(), 3.50));
+	r.SetItemMarkdown("pears", 0);
+	assert(CompareNear(r.CurrentTotal(), 5.25));
 }
 
-void RemoveTestForQty() {
+void RemoveTestForWt() {
 	Register r;
 	r.AddItem("pears", ItemType::WT);
 	r.SetItemPrice("pears", 1.50);
@@ -77,7 +81,7 @@ void RemoveTestForQty() {
 	assert(CompareNear(r.CurrentTotal(), 2.00));
 }
 
-void RemoveTestForWt() {
+void RemoveTestForQty() {
 	Register r;
 	r.AddItem("pears", ItemType::QTY);
 	r.SetItemPrice("pears", 1.50);

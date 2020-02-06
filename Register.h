@@ -41,6 +41,7 @@ namespace Accenture::POS {
 			}
 
 			void SetItemPrice(const std::string& itemName, double pr) {
+				if (pr <= 0) return;
 				auto it = _items.find(itemName);
 				if (it != _items.end()) {
 					_runningTotal += it->second->SetPrice(pr);
@@ -48,6 +49,7 @@ namespace Accenture::POS {
 			}
 
 			void SetItemMarkdown(const std::string& itemName, double markdown) {
+				if (markdown < 0) return;
 				auto it = _items.find(itemName);
 				if (it != _items.end()) {
 					_runningTotal += it->second->SetMarkdown(markdown);
@@ -55,6 +57,7 @@ namespace Accenture::POS {
 			}
 
 			void ScanItem(const std::string& itemName, double qty) {
+				if (qty <= 0) return;
 				auto it = _items.find(itemName);
 				if (it != _items.end()) {
 					if (it->second->Type() == ItemType::WT)
@@ -74,7 +77,7 @@ namespace Accenture::POS {
 				}
 			}
 
-			void AttachQtyXForYSpecial(const std::string& itemName, int64_t qualifyingQuantity, double discountPrice) {
+			void AttachQtyXForYSpecial(const std::string& itemName, int32_t qualifyingQuantity, double discountPrice) {
 				if (qualifyingQuantity < 0 || discountPrice < 0) return;
 				auto it = _items.find(itemName);
 				if (it != _items.end()) {
@@ -84,7 +87,7 @@ namespace Accenture::POS {
 				}
 			}
 
-			void AttachQtyBSGSSpecialWithLimit(const std::string& itemName, int64_t qualifyingQuantity, int64_t discountQuantity, int64_t limitQty,
+			void AttachQtyBSGSSpecialWithLimit(const std::string& itemName, int32_t qualifyingQuantity, int32_t discountQuantity, int32_t limitQty,
 				int8_t discountPct) {
 				if (qualifyingQuantity < 0 || discountQuantity < 0 || limitQty < 0 || discountPct < 0 || discountPct > 100) return;
 				auto it = _items.find(itemName);
@@ -95,7 +98,7 @@ namespace Accenture::POS {
 				}
 			}
 
-			void AttachQtyBSGSSpecialWithoutLimit(const std::string& itemName, int64_t qualifyingQuantity, int64_t discountQuantity, int8_t discountPct) {
+			void AttachQtyBSGSSpecialWithoutLimit(const std::string& itemName, int32_t qualifyingQuantity, int32_t discountQuantity, int8_t discountPct) {
 				if (qualifyingQuantity < 0 || discountQuantity < 0 || discountPct < 0 || discountPct > 100) return;
 				auto it = _items.find(itemName);
 				if (it != _items.end()) {

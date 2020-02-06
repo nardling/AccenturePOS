@@ -3,20 +3,21 @@
 
 namespace Accenture::POS {
 	class QtySpecial {
-	public:
-		QtySpecial(uint64_t qq) : _qualifyingQty(qq) {}
-		virtual double DiscountedPrice(uint64_t qty, double basePrice) = 0;
-	protected:
-		uint64_t _qualifyingQty;
+		public:
+			QtySpecial(int32_t  qq) : _qualifyingQty(qq) {}
+			virtual double DiscountedPrice(int32_t  qty, double basePrice) = 0;
+			
+		protected:
+			int32_t  _qualifyingQty;
 	};
 
 	class QtyXForYSpecial : public QtySpecial {
 		public:
-			QtyXForYSpecial(uint64_t qq, double sp) : QtySpecial(qq), _specialPrice(sp) {}
+			QtyXForYSpecial(int32_t  qq, double sp) : QtySpecial(qq), _specialPrice(sp) {}
 
 			double _specialPrice;
 
-			double DiscountedPrice(uint64_t qty, double basePrice) override {
+			double DiscountedPrice(int32_t  qty, double basePrice) override {
 				double discountPrice = 0;
 
 				while (qty >= _qualifyingQty) {
@@ -31,15 +32,15 @@ namespace Accenture::POS {
 
 	class QtyBSGSSpecial : public QtySpecial {
 		public:
-			QtyBSGSSpecial(uint64_t qq, uint64_t dq, uint64_t lq, uint8_t dp) : QtySpecial(qq), _discountQty(dq),
+			QtyBSGSSpecial(int32_t  qq, int32_t  dq, int32_t  lq, uint8_t dp) : QtySpecial(qq), _discountQty(dq),
 				_combinedQty(qq + dq), _discountPct(1 - dp/100.0), _limitQty(lq) { }
 
-			uint64_t _discountQty;
-			uint64_t _combinedQty;
-			uint64_t _limitQty;
+			int32_t  _discountQty;
+			int32_t  _combinedQty;
+			int32_t  _limitQty;
 			double _discountPct;
 
-			double DiscountedPrice(uint64_t qty, double basePrice) override {
+			double DiscountedPrice(int32_t  qty, double basePrice) override {
 				double discountPrice = 0;
 
 				if (qty > _limitQty) {
