@@ -346,6 +346,7 @@ void MarkdownsAndSpecials() {
 }
 
 int main() {
+	std::cout << "Begin Tests\n";
 	AddItemsTest();
 	SetPriceTestForWt();
 	SetPriceTestForQty();
@@ -382,4 +383,5 @@ int main() {
 	AttachQtyBSGSWithoutLimit3();
 	AttachMultipleBSGS();
 	MarkdownsAndSpecials();
+	std::cout << "Tests Successful\n";
 }
